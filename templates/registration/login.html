@@ -1,0 +1,17 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block content %}
+
+
+    <div>
+        <h3>Login Page</h3>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}<br>
+            <a href="">Parolni unutdingizmi?</a><br>
+            <a href="{% url "account:register" %}">Ro'yxatdan o'tish</a><br>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+{% endblock %}

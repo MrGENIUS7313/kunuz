@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load hitcount_tags %}
+{% block content %}
+
+<div>
+    <h1>Home Page</h1>
+</div>
+
+<div class="container">
+    {% if news %}
+        {%  for news in news %}
+            <h1><a href="{% url 'home:new_detail' uuid=news.uuid %}">{{ news.title }}</a></h1> 
+            <h3>{{ news.description }}</h3>  
+            <img src="{{ news.image.url }}" width="300">
+            <p>{{ news.create_at }}  |  {{ hit_count }}</p>
+        {% endfor %}
+    {% else %}
+        <h3>Ushbu kategoriya bo'yicha hech qanday malumot topilmadi.</h3>   
+    {% endif %}
+    
+</div>
+{% endblock content %}

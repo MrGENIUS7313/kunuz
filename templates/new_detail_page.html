@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div>
+    <h1>News Detail Page</h1>
+</div>
+<div class="container">
+    {%  for new_detail in new_detail %}
+        <h1>{{ new_detail.title }}</h1>
+        <h3>{{ new_detail.description }}</h3>
+        <img src="{{ new_detail.image.url }}" width="300">
+        <p>{{ new_detail.body|safe }}</p>
+        <p><i class="fa fa-eye aria" aria-hidden="true"></i>hit counts: {{ new_detail.hit_count.hits }}  |  {{ new_detail.create_at }}</p>
+        <p>News category : {{ new_detail.category }}</p>
+        <p>News tags : </p>
+        <ul>
+            {% for tags in new_detail.tags.all %}
+                <li>{{ tags.name }}</li>
+            {% endfor %}
+        </ul>
+        <br>
+        {% if request.user == new_detail.user or request.user.is_superuser%}
+            <p>Is active : {{ new_detail.is_active }}</p>
+            {% if new_detail.is_active == True %}
+                <a href="{% url 'home:new_delete' uuid=new_detail.uuid %}">O'chirish</a>/
+            {% elif request.user.is_superuser and new_detail.is_active == False %}
+                <a href="{% url 'home:new_delete' uuid=new_detail.uuid %}">O'chirish</a>/
+            {% endif %}
+            <a href="{% url 'home:new_update' uuid=new_detail.uuid %}">Tahrirlash</a>
+            <br>
+        {% endif %}
+        <br><br>
+        {%  for news in recomendation %}
+            {% if not news.uuid == new_detail.uuid %}
+                <h1><a href="{% url 'home:new_detail' uuid=news.uuid %}">{{ news.title }}</a></h1> 
+                <h3>{{ news.description }}</h3>  
+                <img src="{{ news.image.url }}" width="300">
+                <p>View : {{ news.view_count }}                       Create at : {{ news.create_at }}</p>
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+    <a href="{% url 'home:home_page' %}">Back home</a>
+</div>
+{% endblock content %}

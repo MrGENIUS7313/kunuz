@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div>
+    <h1>All News Page</h1>
+</div>
+<div class="container">
+    {%  for all_news in all_news %}
+        <h1><a href="{% url 'home:new_detail' uuid=all_news.uuid %}">{{ all_news.title }}</a></h1> 
+        <h3>{{ all_news.description }}</h3>
+        <img src="{{ all_news.image.url }}" width="300">
+        <p>View : {{ all_news.view_count }}     Create user : {{ all_news.user }}     Create at : {{ all_news.create_at }}     Is active : {{ all_news.is_active }}</p>
+        <br>
+    {% endfor %}
+    <a href="{% url 'home:home_page' %}">Back home</a>
+</div>
+{% endblock content %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div>
+    <h1>Search Page</h1>
+</div>
+<div>
+    <p><b>{{ query }}</b> bo'yicha qidiruv natijalari soni : <b>{{ object_list|length }}</b></p>
+</div>
+<div class="container">
+    {%  for query in object_list %}
+        <h1><a href="{% url 'home:new_detail' query.uuid %}">{{ query.title }}</a></h1> 
+        <h3>{{ query.description }}</h3>  
+        <img src="{{ query.image.url }}" width="300">
+        <p>View : {{ query.view_count }}                       Create at : {{ query.create_at }}</p>
+    {% endfor %}
+    <a href="{% url 'home:home_page' %}">Back to home</a>
+</div>
+
+{% endblock content %} 

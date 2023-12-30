@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div>
+        <h1>Update New Page</h1>
+    </div>
+    <div class="m-5">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Saqlash</button>
+            <a href="{% url 'home:new_detail' object.uuid %}">Orqaga</a>
+        </form>
+    </div>
+{{ form.media }}
+{% endblock %}

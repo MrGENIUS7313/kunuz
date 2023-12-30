@@ -1,0 +1,42 @@
+{% load static %}
+{% load hitcount_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <a href="{% url 'home:home_page' %}">All</a>
+        {% for category in category %}
+            <a href="{% url 'home:category' uuid=category.uuid %}">{{ category.name }}</a>
+        {% endfor %}
+    </div>
+
+    <br>
+    <div>
+        {% if request.user.is_authenticated %}
+            <form method="post" action="{% url 'account:logout' %}">
+                {% csrf_token %}
+                <input type="submit" value="Logout">
+            </form>
+            <a href="{% url 'account:my_profile' %}">My Profile : <b>{{ request.user }}</b></a>
+        {% else %}
+            <a href="{% url 'account:login' %}">SignIn</a>
+            <a href="{% url 'account:register' %}">SignUp</a>
+        {% endif %}
+    </div>
+    <div>
+        <form action="{% url 'home:search' %}" method="get">
+            <input type="search" placeholder="Search" aria-label="Search" name="search">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    
+    {% block content %}
+    {% endblock content %}
+</body>
+</html>

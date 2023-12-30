@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="m-4">
+    <h3>New Delete Page</h3>
+    {% for new_delete in new_delete %}
+    <p>Haqiqatdan ham bu yangilikni o'chirmoqchimisiz?</p>
+    <h3>{{ new_delete.title }}</h3>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">O'chirish</button>
+        <a href="{% url 'home:new_detail' new_delete.uuid %}">Orqaga</a>
+    </form>
+    {% endfor %}
+</div>
+    
+{% endblock content %}

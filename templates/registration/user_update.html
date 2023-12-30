@@ -1,0 +1,14 @@
+{% extends "../base.html" %}
+{% block content %}
+
+    <h1>User Update Page</h1>
+    <form method="post" enctype="multipart/form">
+        {% csrf_token %}
+        <div class="container"> 
+            {{ form.as_p }}
+            <a href="{% url "account:my_profile" %}">Orqaga</a><br>
+            <button type="submit" class="registerbtn">Saqlash</button>
+        </div>
+    </form>
+
+{% endblock content %}

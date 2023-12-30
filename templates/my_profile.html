@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div>
+    <h1>Profile page</h1>
+</div>
+<div class="container">
+    {% for profile in profile %}
+        {% if profile.avatar %}
+            <img src="{{ profile.avatar.url }}">
+        {% endif %}
+        <h3>Profil username: {{ profile.username }}</h3>
+        <p>Fisrt name : {{ profile.first_name }}</p>
+        <p>Last name : {{ profile.last_name }}</p>
+        <p>Email : {{ profile.email }}</p>
+        <p>Phone : {{ profile.phone }}</p>
+        <p>Adress : {{ profile.address }}</p>
+        <a href="{% url 'home:add_new' %}">Add new</a> /
+        <a href="{% url 'home:my_news' %}">My news</a>
+        {% if request.user.is_superuser %}
+            /<a href="{% url 'home:all_news' %}">All news</a>
+        {% endif %}
+        <br><br>
+        <a href="{% url 'account:pass-change' %}">Parolni o'zgartirish</a>
+        <br><br>
+        <a href="{% url 'account:profile_update' profile.id %}">Malumotlarni yangilash</a>
+        <br><br>
+        <form action="{% url 'account:logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+    {% endfor %}
+</div>
+
+{% endblock content %}
