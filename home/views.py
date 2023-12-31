@@ -12,21 +12,13 @@ from hitcount.views import HitCountDetailView
 # Create your views here.
 
 
-class HomePageView(HitCountDetailView):
-    count_hit = True
+class HomePageView(View):
     def get(self, request):
         news = News.objects.filter(is_active=True).order_by('-create_at')[:10]
         context = {
             'news' : news
         }
         return render(request, 'home.html', context)
-    
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['hit_count'] = self.get_hit_count()
-    #     return context
-
-
 
 
 class AddNewView(LoginRequiredMixin, CreateView):
@@ -40,7 +32,7 @@ class AddNewView(LoginRequiredMixin, CreateView):
         return super().form_valid(form )
 
 
-class MyNewsView(LoginRequiredMixin, ListView, HitCountDetailView):
+class MyNewsView(LoginRequiredMixin, ListView, View):
     template_name = 'my_news.html'
     model = News
     count_hit = True
@@ -50,8 +42,7 @@ class MyNewsView(LoginRequiredMixin, ListView, HitCountDetailView):
         return context
 
 
-class AllNewsView(LoginRequiredMixin, HitCountDetailView):
-    count_hit = True
+class AllNewsView(LoginRequiredMixin, View):
     def get(self, request):
         if self.request.user.is_superuser:
             all_news = News.objects.filter(user=self.request.user).order_by('-create_at')
@@ -61,7 +52,7 @@ class AllNewsView(LoginRequiredMixin, HitCountDetailView):
         return render(request, 'all_news.html', context)
     
 
-class NewDetailView(HitCountDetailView, DetailView):
+class NewDetailView(HitCountDetailView):
     count_hit = True
     def get(self, request, uuid):
         news = News.objects.filter(is_active=True, uuid=uuid)

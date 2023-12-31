@@ -1,38 +1,38 @@
 {% extends "base.html" %}
-
+{% load hitcount_tags %}
 {% block content %}
 
 <div>
     <h1>News Detail Page</h1>
 </div>
 <div class="container">
-    {%  for new_detail in new_detail %}
-        <h1>{{ new_detail.title }}</h1>
-        <h3>{{ new_detail.description }}</h3>
-        <img src="{{ new_detail.image.url }}" width="300">
-        <p>{{ new_detail.body|safe }}</p>
-        <p><i class="fa fa-eye aria" aria-hidden="true"></i>hit counts: {{ new_detail.hit_count.hits }}  |  {{ new_detail.create_at }}</p>
-        <p>News category : {{ new_detail.category }}</p>
+    {%  for new_detail1 in new_detail %}
+        <h1>{{ new_detail1.title }}</h1>
+        <h3>{{ new_detail1.description }}</h3>
+        <img src="{{ new_detail1.image.url }}" width="300">
+        <p>{{ new_detail1.body|safe }}</p>
+        <p><i class="fa fa-eye aria" aria-hidden="true"></i>hit counts: {% get_hit_count for new_detail %}  |  {{ new_detail1.create_at }}</p>
+        <p>News category : {{ new_detail1.category }}</p>
         <p>News tags : </p>
         <ul>
-            {% for tags in new_detail.tags.all %}
+            {% for tags in new_detail1.tags.all %}
                 <li>{{ tags.name }}</li>
             {% endfor %}
         </ul>
         <br>
-        {% if request.user == new_detail.user or request.user.is_superuser%}
-            <p>Is active : {{ new_detail.is_active }}</p>
-            {% if new_detail.is_active == True %}
-                <a href="{% url 'home:new_delete' uuid=new_detail.uuid %}">O'chirish</a>/
-            {% elif request.user.is_superuser and new_detail.is_active == False %}
-                <a href="{% url 'home:new_delete' uuid=new_detail.uuid %}">O'chirish</a>/
+        {% if request.user == new_detail1.user or request.user.is_superuser%}
+            <p>Is active : {{ new_detail1.is_active }}</p>
+            {% if new_detail1.is_active == True %}
+                <a href="{% url 'home:new_delete' uuid=new_detail1.uuid %}">O'chirish</a>/
+            {% elif request.user.is_superuser and new_detail1.is_active == False %}
+                <a href="{% url 'home:new_delete' uuid=new_detail1.uuid %}">O'chirish</a>/
             {% endif %}
-            <a href="{% url 'home:new_update' uuid=new_detail.uuid %}">Tahrirlash</a>
+            <a href="{% url 'home:new_update' uuid=new_detail1.uuid %}">Tahrirlash</a>
             <br>
         {% endif %}
         <br><br>
         {%  for news in recomendation %}
-            {% if not news.uuid == new_detail.uuid %}
+            {% if not news.uuid == new_detail1.uuid %}
                 <h1><a href="{% url 'home:new_detail' uuid=news.uuid %}">{{ news.title }}</a></h1> 
                 <h3>{{ news.description }}</h3>  
                 <img src="{{ news.image.url }}" width="300">
